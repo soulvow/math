@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>成績查詢系統</title>
+    <link rel="canonical" href="https://sites.google.com/ylsh.chc.edu.tw/math"/>
+    <link rel="stylesheet" href="dist/style_auth.css"/>
+  </head>
+<BODY bgcolor="#CAE1FF">
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script src="dist/main_auth.js"></script>
+	
+    <br>
+    
+    <!-- 是 登入 || 註冊-->
+    <input id="type" type="hidden" value="signin"/>
+    <div class="container">
+      <!-- 未登入-->
+      <section class="user-null none">
+        <!-- 登入 || 註冊 表單-->
+        <div class="form-card">
+          <div class="cat mb-4"><img src="dist/ylsh_tree.png"/><a href="https://sites.google.com/ylsh.chc.edu.tw/math" target="_blank">精良教學 »</a></div>
+          <div class="tab-title mb-4"><a class="active" href="#" data-value="signin">登入</a><a href="#" data-value="create">註冊</a></div>
+          <div class="input-group mb-4">
+            <input class="u-full-width" id="email" type="email" placeholder="輸入信箱"/>@student2.ylsh.chc.edu.tw
+          </div>
+          <div class="input-group mb-4">
+            <input class="u-full-width" id="password" type="password" placeholder="輸入密碼"/>
+          </div>
+          <div class="input-group mb-4">
+            <button class="button button-primary" id="sign-up" type="button">送出</button>
+          </div>
+			<br>
+          <div class="text-center"><a class="text-muted" id="forgot" href=""><font color="#FFA600">忘記密碼 / 取回帳號</font></a></div>
+        </div>
+		
+			<br>
+			<center><font face="標楷體" color="#9999FF" size="3">
+			By Soul 2022.05.01
+			</font></center>
+			<br>
+			
+      </section>
+	  
+      <!-- 已登入--> <!-- 已登入--> <!-- 已登入-->
+      <section class="user-logged none">
+        <div class="text-center mb-4">
+		  <p id="user-account0"></p>
+          <p id="user-email0"></p>
+          <p id="user-uid0"></p>
+          <p id="user-name0"></p>
+          <p id="user-email-verify0"></p>
+        </div>
+
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="verify-email0" type="button" hint="驗證信箱00">驗證信箱</button>
+        </div>
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="logout0" type="button" hint="登出帳號00">登出帳號</button>
+        </div>
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="delete-user0" type="button" hint="刪除帳號00">刪除帳號</button>
+        </div>
+		
+      </section>
+	  
+      <!-- 更新資料-->
+      <section class="user-editor0 none">
+        <div class="input-group mb-4">
+          <input class="u-full-width" id="new-name0" type="text" placeholder="輸入顯示名稱"/>
+        </div>
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="sure-name0" type="button" hint="確認更新00">確認更新</button>
+        </div>
+      </section>
+      <!-- 修改密碼-->
+      <section class="user-password0 none">
+        <div class="input-group mb-4">
+          <input class="u-full-width" id="old-password-change0" type="password" placeholder="輸入舊密碼"/>
+        </div>
+        <div class="input-group mb-4">
+          <input class="u-full-width" id="new-password0" type="password" placeholder="輸入新密碼"/>
+        </div>
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="sure-password0" type="button" hint="確認更新00">確認更新</button>
+        </div>
+      </section>
+      <!-- 刪除帳號-->
+      <section class="user-delete0 none">
+        <div class="input-group mb-4">
+          <input class="u-full-width" id="old-password-delete0" type="password" placeholder="輸入密碼"/>
+        </div>
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="sure-delete0" type="button" hint="確認刪除00">確認刪除</button>
+        </div>
+      </section>
+      <!-- 忘記密碼-->
+      <section class="user-forgot none">
+        <div class="input-group mb-4">
+          <p>
+          <input class="u-full-width" id="new-forgot" type="text" placeholder="輸入您的完整信箱"/>
+        </div>
+	<center><font color="gray">須含@student2.ylsh.chc.edu.tw</font></center><br><br>
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="sure-forgot" type="button" hint="寄出修改密碼信00">寄出修改密碼信</button>
+        </div>
+
+      </section>
+
+
+      <!-- 已認證--><!-- 已認證--><!-- 已認證-->
+      <section class="user-authed none">
+        <div class="text-center mb-4">
+		  <p id="user-account1"></p>
+          <p id="user-email1"></p>
+          <p id="user-uid1"></p>
+          <p id="user-name1"></p>
+          <p id="user-email-verify1"></p>
+        </div>
+
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="changePassword1" type="button" hint="驗證信箱11">修改密碼</button>
+        </div>
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="logout1" type="button" hint="登出帳號11">登出帳號</button>
+        </div>
+        <div class="input-group mb-4">
+          <class="button button-primary" id="delete-user1" type="button" hint="刪除帳號11">
+        </div>
+		
+ 	<center><font face="標楷體" color="#FF82AB" size="4">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<p id="myElem">～資料處理中請稍後～</p>
+	</font></center>
+	  <p id="data01"></p> 
+	  <p id="data02"></p> 	  
+
+      </section>
+
+      <!-- 更新資料-->
+      <section class="user-editor1 none">
+        <div class="input-group mb-4">
+          <input class="u-full-width" id="new-name1" type="text" placeholder="輸入顯示名稱"/>
+        </div>
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="sure-name1" type="button" hint="確認更新11">確認更新</button>
+        </div>
+      </section>
+      <!-- 修改密碼-->
+      <section class="user-password1 none">
+        <div class="input-group mb-4">
+          <input class="u-full-width" id="old-password-change1" type="password" placeholder="輸入舊密碼"/>
+        </div>
+        <div class="input-group mb-4">
+          <input class="u-full-width" id="new-password1" type="password" placeholder="輸入新密碼"/>
+        </div>
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="sure-password1" type="button" hint="確認更新11">確認更新</button>
+        </div>
+      </section>
+      <!-- 刪除帳號-->
+      <section class="user-delete1 none">
+        <div class="input-group mb-4">
+          <input class="u-full-width" id="old-password-delete1" type="password" placeholder="輸入密碼"/>
+        </div>
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="sure-delete1" type="button" hint="確認刪除11">確認刪除</button>
+        </div>
+      </section>
+      <!-- 忘記密碼-->
+      <section class="user-forgot none">
+        <div class="input-group mb-4">
+          <p>
+          <input class="u-full-width" id="new-forgot" type="text" placeholder="輸入您的完整信箱"/>
+
+        </div>
+
+        <div class="input-group mb-4">
+          <button class="button button-primary" id="sure-forgot" type="button" hint="寄出修改密碼信11">寄出修改密碼信</button>
+        </div>
+	  		
+      </section>
+ 
+      <!-- 錯誤訊息-->
+      <div class="error" id="error-message"></div>
+    </div>
+
+  </body>
+</html>
+
+<!--版權宣告： made by 林精良 Soul 2022.05.01-->
